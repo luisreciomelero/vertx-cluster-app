@@ -1,14 +1,17 @@
 # vertx-cluster-app
 
-Para lanzar el cluster, en 2 terminales disntintos:
+Para lanzar el cluster, en 2 terminales distintos:
 
 Terminal 1:
-  1. cd service-verticle
-  2. sh run_cluster_element_1.sh
+
+    cd service-verticle
+    sh run_cluster_element_1.sh
   
 Terminal 2:
-  1. cd vertx-rest-api-example
-  2. sh run_cluster_element_1.sh
+
+    cd vertx-rest-api-example
+    sh run_cluster_element_1.sh
+    
 
 Una vez levantado el cluster, desde postman:
 
@@ -19,3 +22,6 @@ Una vez levantado el cluster, desde postman:
 Usuarios creados por defecto:
 
     "[{\"username\":\"admin\",\"password\":\"superSecret\"},{\"username\":\"root\",\"password\":\"superExtraSecret\"},        {\"username\":\"lrecio\",\"password\":\"notSecret\"}]"
+
+
+Si levantamos un segunda instancia de service-verticle, en una nueva terminal del mismo modo que la primera, y realizamos peticiones de forma consecutiva podemos comprobar como se distribuyen entre ambos verticle mediante round-robin.
