@@ -14,7 +14,7 @@ public class MainVerticle extends AbstractVerticle {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MainVerticle.class);
 
-    private static Vertx vertx = io.vertx.reactivex.core.Vertx.vertx();
+    //private static Vertx vertx = io.vertx.reactivex.core.Vertx.vertx();
 
     public  void start(){
         deployVerticle(new UserController());
