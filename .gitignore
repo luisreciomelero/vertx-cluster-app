@@ -5,8 +5,8 @@
  
 # Maven
 log/
-*/target/
-target/
+service-verticle/target/
+vertx-rest-api-example/target/
 
 dependency-reduced-pom.xml
 build_and_run.sh

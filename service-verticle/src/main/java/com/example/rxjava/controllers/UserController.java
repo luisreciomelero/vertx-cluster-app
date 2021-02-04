@@ -19,13 +19,25 @@ import java.util.Optional;
 public class UserController extends AbstractVerticle {
 
     private static final String ADDRESS = "prueba-address";
+    private static final String ADDRESS_PUBLISH = "prueba-publish";
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
     private UserMapper userMapper = new UserMapper();
     private UserService service = new UserService();
 
 
     public void start() {
+        consumerPublishMessage();
         consumerMessage();
+    }
+    /*
+     * La unica función de este metodo es demostrar que cuando levanto varias instancias de este verticle
+     * los mensajes que se publican en esta dirección le llegan a todos los consumidores.
+     */
+    private void consumerPublishMessage(){
+        final EventBus eventBus = vertx.eventBus();
+        eventBus.consumer(ADDRESS_PUBLISH, msg ->{
+            LOGGER.info("HA LLEGADO EL MENSAJE: " + msg.body());
+        });
     }
 
     private Disposable consumerMessage() {
