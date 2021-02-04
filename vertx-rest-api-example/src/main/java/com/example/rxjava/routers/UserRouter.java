@@ -80,7 +80,7 @@ public class UserRouter extends AbstractVerticle {
      * Ejemplo con publicacion de mensajes
      */
 
-    private void publishMessage(UserMessage userMessage){
+    private void publishMessage(UserMessage userMessage) {
         LOGGER.info("NOS DISPONEMOS A PUBLICAR MENSAJE");
         final EventBus eventBus = vertx.eventBus();
         try {
