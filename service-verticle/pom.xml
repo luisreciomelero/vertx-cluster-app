@@ -102,7 +102,7 @@
                         implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                   <manifestEntries>
                     <Main-Class>io.vertx.core.Launcher</Main-Class>
-                    <Main-Verticle>com.example.rxjava.MainVerticle</Main-Verticle>
+                    <Main-Verticle>com.example.rxjava.Starter</Main-Verticle>
                   </manifestEntries>
                 </transformer>
                 <transformer

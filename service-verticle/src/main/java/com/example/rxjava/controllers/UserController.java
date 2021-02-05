@@ -5,6 +5,7 @@ import com.example.rxjava.messages.UserMessage;
 import com.example.rxjava.models.User;
 import com.example.rxjava.services.UserService;
 import io.reactivex.Observable;
+import io.reactivex.SingleSource;
 import io.reactivex.disposables.Disposable;
 import io.vertx.core.impl.logging.Logger;
 import io.vertx.core.impl.logging.LoggerFactory;
@@ -13,6 +14,8 @@ import io.vertx.reactivex.core.AbstractVerticle;
 import io.vertx.reactivex.core.eventbus.EventBus;
 import io.vertx.reactivex.core.eventbus.Message;
 import io.vertx.reactivex.core.eventbus.MessageConsumer;
+import io.vertx.reactivex.core.shareddata.LocalMap;
+import io.vertx.reactivex.core.shareddata.SharedData;
 
 import java.util.Optional;
 
@@ -23,11 +26,16 @@ public class UserController extends AbstractVerticle {
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
     private UserMapper userMapper = new UserMapper();
     private UserService service = new UserService();
+    private static final String ADDRESS_SHARED_DATA_LOCAL = "prueba-sdl";
+    private static final String LOCAL_MAP_NAME = "myLocalMap";
+
+
 
 
     public void start() {
         consumerPublishMessage();
         consumerMessage();
+        consumerSDLMessage();
     }
     /*
      * La unica función de este metodo es demostrar que cuando levanto varias instancias de este verticle
@@ -69,6 +77,29 @@ public class UserController extends AbstractVerticle {
             }
             msg.reply(body);
         });
+
+    }
+
+    private void consumerSDLMessage(){
+        final EventBus eventBus = vertx.eventBus();
+        MessageConsumer<String> consumer = eventBus.<String>consumer(ADDRESS_SHARED_DATA_LOCAL);
+        Observable<Message<String>> observable = consumer.toObservable();
+
+        observable.subscribe(msg ->{
+            LOGGER.info("Mensaje: " + msg.body());
+            writeData(msg.body());
+        },err ->{
+            LOGGER.error("Se ha producido un error: " + err);
+        });
+    }
+
+    private void writeData(String message){
+        final SharedData sd = vertx.sharedData();
+        final LocalMap<String, String> sharedData = sd.getLocalMap(LOCAL_MAP_NAME);
+        final String key = message;
+        final String  value = Math.random()+"";
+
+        sharedData.put(key,value);
 
     }
 }
