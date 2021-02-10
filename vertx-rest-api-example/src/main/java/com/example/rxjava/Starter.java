@@ -16,6 +16,8 @@ public class Starter extends AbstractVerticle {
 
     //private static Vertx vertx = io.vertx.reactivex.core.Vertx.vertx();
 
+
+
     public  void start(){
         deployVerticle(new UserRouter());
     }

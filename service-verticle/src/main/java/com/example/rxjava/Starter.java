@@ -17,13 +17,14 @@ public class Starter extends AbstractVerticle {
     //private static Vertx vertx = io.vertx.reactivex.core.Vertx.vertx();
 
     public  void start(){
-        deployVerticle(new UserController());
-        deployVerticle(new ReaderSharedData());
+        deployVerticle(new UserController(), true);
+        deployVerticle(new ReaderSharedData(), false);
 
     }
-    private void deployVerticle(Verticle verticle) {
+    private void deployVerticle(Verticle verticle, boolean worker) {
         DeploymentOptions deploymentOptions = new DeploymentOptions();
         deploymentOptions.setConfig(config());
+        deploymentOptions.setWorker(worker);
         Single<String> deployRouter = RxHelper.deployVerticle(vertx, verticle, deploymentOptions);
         deployRouter.subscribe(id -> {
             System.out.println("OK");
