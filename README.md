@@ -39,5 +39,20 @@ Para comprobar el acceso a este Local Map de Vertx, se ha creado un verticle que
 Este verticle será el encargado de leer el Local Map y devolver el valor asociado a nuestro API. Para ello podemos realizar la petición:
 
                                     GET http://localhost:8080/sharedData/local/:key 
+                    
+
+------------------------------------------------------------------------------------------------------------
+
+Se ha añadido un ejemplo de cómo es posible compartir datos entre 2 verticle de distintas instancias de Vert.x. Para ello se ha habilitado un nuevo endpoint al que hacer peticiones.
+
+                                    POST http://localhost:8080/sharedData/global/:key 
                                     
-                                    
+A través de esta petición se establecerá una comunicación request-response entre los verticle de las distintas instancias:
+
+    1. El UserRouter enviará la key al verticle UserController
+    2. EL verticle UserController almacenará en un AsyncMap esta key con un value generado aleatoriamente,
+       accesible desde todos los verticle que tengan conexión al cluster por el eventBus.
+    3. Una vez almacena este AsyncMap bajo un nombre del mapa concreto (GLOBAL_MAP_NAME), 
+       responderá al primer verticle de forma satisfactoria.
+    4. Una vez recibimos esta respuesta, comprobamos si el verticle tiene acceso al AsyncMap generado por el otro verticle.
+    
